@@ -1,6 +1,6 @@
 {
   "name": "x927",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Compile one PLUGIN.md into Claude Code, Cursor, Codex, and Tessl plugin manifests. Named after XKCD 927.",
   "type": "module",
   "bin": {

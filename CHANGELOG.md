@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/ai-ecoverse/x927/compare/v1.1.0...v1.2.0) (2026-05-21)
+
+
+### Features
+
+* validate v1 floating-tag auto-advance ([41a01e8](https://github.com/ai-ecoverse/x927/commit/41a01e8c41f92748f9993aa6cc0b5b0408e54a7e))
+
 # [1.1.0](https://github.com/ai-ecoverse/x927/compare/v1.0.0...v1.1.0) (2026-05-21)
 
 
