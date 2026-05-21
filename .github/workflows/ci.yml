@@ -22,5 +22,5 @@ jobs:
         uses: tesslio/setup-tessl@v2
       - name: Run tests
         run: npm test
-      - name: Smoke: build the example
+      - name: "Smoke: build the example"
         run: node bin/x927.js build --dry-run examples/app-builder/PLUGIN.md
