@@ -1,6 +1,10 @@
-name: x927
+name: x927 (AI Ecoverse)
 description: Compile one PLUGIN.md to plugin manifests for Claude Code, Cursor, Codex, and Tessl.
 author: ai-ecoverse
+
+branding:
+  icon: git-branch
+  color: purple
 
 inputs:
   command:
