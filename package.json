@@ -4,7 +4,7 @@
   "description": "Compile one PLUGIN.md into Claude Code, Cursor, Codex, and Tessl plugin manifests. Named after XKCD 927.",
   "type": "module",
   "bin": {
-    "x927": "./bin/x927.js"
+    "x927": "bin/x927.js"
   },
   "files": [
     "bin",
@@ -34,7 +34,10 @@
     "agents",
     "skill-md"
   ],
-  "repository": "https://github.com/ai-ecoverse/x927",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ai-ecoverse/x927.git"
+  },
   "license": "Apache-2.0",
   "author": "Lars Trieloff",
   "devDependencies": {
