@@ -102,9 +102,19 @@ Each target is one module under `src/targets/`, describing `rename`, `allow`, `t
 
 ## Status
 
-- **Stable enough to try:** Claude Code, Cursor, Tessl targets are based on first-hand inspection.
-- **Provisional:** the Codex target was scaffolded from second-hand research; verify against the Codex CLI source before relying on it for production manifests.
+All four targets — Claude Code, Cursor, OpenAI Codex, Tessl — are verified against the vendor's documentation or source. The Tessl target additionally runs through `tessl tile lint` in CI as part of the integration test suite.
+
+## Publishing
+
+Tagged releases (`v*`) publish to npm via [trusted publishing / OIDC](https://docs.npmjs.com/trusted-publishers) — no `NPM_TOKEN` in the repo. To cut a release:
+
+```bash
+npm version patch        # or minor / major
+git push --follow-tags
+```
+
+The `publish.yml` workflow runs tests, verifies tag-vs-package.json parity, then `npm publish --provenance --access public`. The package's trusted-publisher config on npm must reference this repo and `publish.yml`.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+Apache-2.0. See [LICENSE](LICENSE).

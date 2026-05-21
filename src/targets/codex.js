@@ -1,13 +1,16 @@
-// NOTE: Codex plugin format is provisional — the `.codex-plugin/plugin.json`
-// path and field set come from second-hand research. Verify against the Codex
-// CLI source before treating this target as authoritative.
+// Verified against openai/codex source: codex-rs/core-plugins/src/manifest.rs
+// and codex-rs/utils/plugins/src/plugin_namespace.rs. Manifest path is
+// `.codex-plugin/plugin.json` (with `.claude-plugin/plugin.json` as a
+// fallback). Top-level fields below are the documented schema; relative
+// paths inside `skills`, `mcpServers`, `apps`, and `hooks` must start with
+// `./` and stay within the plugin root.
 export default {
   id: "codex",
   rename: {},
   allow: [
     "name",
-    "description",
     "version",
+    "description",
     "author",
     "homepage",
     "repository",

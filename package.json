@@ -17,7 +17,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test tests/"
+    "test": "node --test 'tests/**/*.test.js'"
   },
   "dependencies": {
     "mdast-util-to-string": "^4.0.0",
@@ -35,6 +35,6 @@
     "skill-md"
   ],
   "repository": "https://github.com/ai-ecoverse/x927",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "Lars Trieloff"
 }

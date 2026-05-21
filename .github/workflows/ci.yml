@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  smoke:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,7 +18,9 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - name: Compile example PLUGIN.md
-        run: node bin/x927.js build --dry-run examples/app-builder/PLUGIN.md
+      - name: Install Tessl CLI (for tile-lint integration test)
+        uses: tesslio/setup-tessl@v2
       - name: Run tests
-        run: npm test --if-present
+        run: npm test
+      - name: Smoke: build the example
+        run: node bin/x927.js build --dry-run examples/app-builder/PLUGIN.md
