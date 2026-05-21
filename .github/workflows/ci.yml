@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
       - run: npm ci
       - name: Install Tessl CLI (for tile-lint integration test)
         uses: tesslio/setup-tessl@v2
