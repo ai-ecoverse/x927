@@ -12,6 +12,12 @@
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
-    "@semantic-release/github"
+    "@semantic-release/github",
+    [
+      "@semantic-release/exec",
+      {
+        "successCmd": "MAJOR=$(echo ${nextRelease.version} | cut -d. -f1) && git tag -f \"v$MAJOR\" \"${nextRelease.gitTag}\" && git push --force \"https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY\" \"v$MAJOR\""
+      }
+    ]
   ]
 }
