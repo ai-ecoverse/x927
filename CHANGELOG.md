@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/ai-ecoverse/x927/compare/v1.0.0...v1.1.0) (2026-05-21)
+
+
+### Features
+
+* prepare github marketplace ([b2af9f8](https://github.com/ai-ecoverse/x927/commit/b2af9f89bf7fa1dd49401cfa52fbe6cd87d0e582))
+
 # 1.0.0 (2026-05-21)
 
 
