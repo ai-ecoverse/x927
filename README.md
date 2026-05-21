@@ -5,9 +5,9 @@
 > *"Soon: Situation: there are 5 competing plugin standards."*
 > — [XKCD 927](https://xkcd.com/927/)
 
-`x927` compiles one `PLUGIN.md` source file into plugin manifests for **Claude Code**, **Cursor**, **OpenAI Codex**, and **Tessl** — so a plugin author edits one file and reviews one diff instead of three or four manifests that silently drift.
+`x927` compiles one `PLUGIN.md` source file into plugin manifests for **Claude Code**, **Cursor**, **OpenAI Codex**, and **Tessl**. A plugin author edits one file and reviews one diff instead of three or four manifests that silently drift.
 
-The portable piece — `SKILL.md`, the Agent Skills spec — already works everywhere. `x927` only handles the part that *isn't* standardized: the per-vendor plugin manifest envelope and marketplace metadata.
+The portable piece (`SKILL.md`, the [Agent Skills spec](https://agentskills.io/specification)) already works everywhere. `x927` only handles the part that *isn't* standardized: the per-vendor plugin manifest envelope and marketplace metadata.
 
 ## Usage
 
@@ -32,10 +32,10 @@ npx x927 list-targets
 
 `PLUGIN.md` is plain Markdown. The structure is:
 
-- `# <name>` — the H1 text becomes the plugin name.
-- A paragraph immediately after the H1 — becomes the `description` (or `summary` for Tessl).
-- A bullet list of `- key: value` pairs — these are the **base** fields, inherited by every target.
-- `## <target>` — opens a target-specific override section. Bullets under it override or augment the base.
+- The H1 text (`# <name>`) becomes the plugin name.
+- A paragraph immediately after the H1 becomes the `description` (or `summary` for Tessl).
+- A bullet list of `- key: value` pairs holds the **base** fields, inherited by every target.
+- `## <target>` opens a target-specific override section. Bullets under it override or augment the base.
 
 Comma-separated values become arrays. Sub-bullets also become arrays. `true`/`false`/numbers are coerced.
 
@@ -70,39 +70,39 @@ Development, customization, testing, and deployment skills for Adobe App Builder
 
 Running `npx x927 build` against that PLUGIN.md writes:
 
-| Target | Output path |
-|---|---|
-| Claude | `.claude-plugin/plugin.json` |
-| Cursor | `.cursor-plugin/plugin.json` |
-| Codex  | `.codex-plugin/plugin.json` |
-| Tessl  | `tile.json` |
+| Target | Output path | Spec |
+|---|---|---|
+| Claude Code  | `.claude-plugin/plugin.json` | [code.claude.com/docs/en/plugins-reference](https://code.claude.com/docs/en/plugins-reference) |
+| Cursor       | `.cursor-plugin/plugin.json` | [cursor.com/docs/reference/plugins](https://cursor.com/docs/reference/plugins) |
+| OpenAI Codex | `.codex-plugin/plugin.json`  | [developers.openai.com/codex/plugins/build](https://developers.openai.com/codex/plugins/build) |
+| Tessl        | `tile.json`                  | [docs.tessl.io/reference/configuration](https://docs.tessl.io/reference/configuration) |
 
 ## The pipeline
 
 For every target, x927 runs these four steps in order:
 
-1. **Map** — rename fields the target spells differently. (Tessl's `summary` ← shared `description`.)
-2. **Filter** — drop base fields the target doesn't support, so they don't leak into the manifest.
-3. **Merge** — overlay the `## <target>` section's bullets, which override base fields or add target-specific ones (these bypass the filter; the target section is trusted to know its own format).
-4. **Output** — run any target-specific transforms, then serialize.
+1. **Map.** Rename fields the target spells differently. (Tessl's `summary` ← shared `description`.)
+2. **Filter.** Drop base fields the target doesn't support, so they don't leak into the manifest.
+3. **Merge.** Overlay the `## <target>` section's bullets, which override base fields or add target-specific ones (these bypass the filter; the target section is trusted to know its own format).
+4. **Output.** Run any target-specific transforms, then serialize.
 
 Each target is one module under `src/targets/`, describing `rename`, `allow`, `transforms`, and `output`. Adding a fifth target is ~25 lines.
 
 ## GitHub Actions
 
 ```yaml
-- uses: ai-ecoverse/x927@v0.1.0
+- uses: ai-ecoverse/x927@v1
   with:
     command: diff           # or "build"
     input: PLUGIN.md
     target: claude,cursor   # optional; defaults to all
 ```
 
-`command: diff` makes a useful CI guard — if a contributor forgot to regenerate, the job fails before review.
+`command: diff` makes a useful CI guard. If a contributor forgot to regenerate, the job fails before review.
 
 ## Status
 
-All four targets — Claude Code, Cursor, OpenAI Codex, Tessl — are verified against the vendor's documentation or source. The Tessl target additionally runs through `tessl tile lint` in CI as part of the integration test suite.
+All four targets (Claude Code, Cursor, OpenAI Codex, Tessl) are verified against the vendor's documentation or source. The Tessl target additionally runs through `tessl tile lint` in CI as part of the integration test suite.
 
 ## Releasing
 
