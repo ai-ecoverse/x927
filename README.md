@@ -104,16 +104,11 @@ Each target is one module under `src/targets/`, describing `rename`, `allow`, `t
 
 All four targets — Claude Code, Cursor, OpenAI Codex, Tessl — are verified against the vendor's documentation or source. The Tessl target additionally runs through `tessl tile lint` in CI as part of the integration test suite.
 
-## Publishing
+## Releasing
 
-Tagged releases (`v*`) publish to npm via [trusted publishing / OIDC](https://docs.npmjs.com/trusted-publishers) — no `NPM_TOKEN` in the repo. To cut a release:
+Releases are automated by [semantic-release](https://semantic-release.gitbook.io/) on every push to `main`. The next version is computed from conventional-commit messages (`feat:` → minor, `fix:` → patch, `feat!:` / `BREAKING CHANGE:` → major). The workflow tags the release, updates `CHANGELOG.md` + `package.json`, publishes to npm with provenance via [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers), and creates the GitHub release.
 
-```bash
-npm version patch        # or minor / major
-git push --follow-tags
-```
-
-The `publish.yml` workflow runs tests, verifies tag-vs-package.json parity, then `npm publish --provenance --access public`. The package's trusted-publisher config on npm must reference this repo and `publish.yml`.
+The package's trusted-publisher config on npm must reference this repo (`ai-ecoverse/x927`) and the `release.yml` workflow. No `NPM_TOKEN` is stored.
 
 ## License
 
