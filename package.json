@@ -1,0 +1,40 @@
+{
+  "name": "x927",
+  "version": "0.1.0",
+  "description": "Compile one PLUGIN.md into Claude Code, Cursor, Codex, and Tessl plugin manifests. Named after XKCD 927.",
+  "type": "module",
+  "bin": {
+    "x927": "./bin/x927.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "action.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "mdast-util-to-string": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
+  },
+  "keywords": [
+    "plugin",
+    "skills",
+    "claude-code",
+    "cursor",
+    "codex",
+    "tessl",
+    "agents",
+    "skill-md"
+  ],
+  "repository": "https://github.com/ai-ecoverse/x927",
+  "license": "MIT",
+  "author": "Lars Trieloff"
+}

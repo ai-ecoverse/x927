@@ -1,0 +1,36 @@
+name: x927
+description: Compile one PLUGIN.md to plugin manifests for Claude Code, Cursor, Codex, and Tessl.
+author: ai-ecoverse
+
+inputs:
+  command:
+    description: 'x927 subcommand: build | diff'
+    default: build
+  input:
+    description: Path to the PLUGIN.md source.
+    default: PLUGIN.md
+  target:
+    description: Comma-separated targets (claude,cursor,codex,tessl). Empty = all known targets.
+    required: false
+  version:
+    description: x927 version to run via npx (e.g. "0.1.0" or "latest").
+    default: latest
+
+runs:
+  using: composite
+  steps:
+    - name: Run x927
+      shell: bash
+      env:
+        X927_TARGET: ${{ inputs.target }}
+        X927_VERSION: ${{ inputs.version }}
+        X927_COMMAND: ${{ inputs.command }}
+        X927_INPUT: ${{ inputs.input }}
+      run: |
+        TARGET_FLAGS=""
+        if [ -n "$X927_TARGET" ]; then
+          for t in $(echo "$X927_TARGET" | tr ',' ' '); do
+            TARGET_FLAGS="$TARGET_FLAGS --target $t"
+          done
+        fi
+        npx -y "x927@$X927_VERSION" "$X927_COMMAND" "$X927_INPUT" $TARGET_FLAGS
