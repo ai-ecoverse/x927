@@ -79,14 +79,16 @@ Running `npx x927 build` against that PLUGIN.md writes:
 
 ## The pipeline
 
-For every target, x927 runs these four steps in order:
+For every target, x927 runs four steps in order:
 
-1. **Map.** Rename fields the target spells differently. (Tessl's `summary` ← shared `description`.)
-2. **Filter.** Drop base fields the target doesn't support, so they don't leak into the manifest.
-3. **Merge.** Overlay the `## <target>` section's bullets, which override base fields or add target-specific ones (these bypass the filter; the target section is trusted to know its own format).
-4. **Output.** Run any target-specific transforms, then serialize.
+| Step | What it does |
+|---|---|
+| `map`    | Rename fields the target spells differently (Tessl's `summary` ← shared `description`). |
+| `filter` | Drop base fields the target doesn't support, so they don't leak into the manifest. |
+| `merge`  | Overlay the `## <target>` section's bullets. These override base fields or add new target-specific ones, bypassing the filter. |
+| `output` | Run any target-specific transforms, then serialize. |
 
-Each target is one module under `src/targets/`, describing `rename`, `allow`, `transforms`, and `output`. Adding a fifth target is ~25 lines.
+Each target is one module under `src/targets/` declaring `rename`, `allow`, `transforms`, and `output`. Adding a fifth target is ~25 lines.
 
 ## GitHub Actions
 
@@ -102,7 +104,7 @@ Each target is one module under `src/targets/`, describing `rename`, `allow`, `t
 
 ## Status
 
-All four targets (Claude Code, Cursor, OpenAI Codex, Tessl) are verified against the vendor's documentation or source. The Tessl target additionally runs through `tessl tile lint` in CI as part of the integration test suite.
+All four targets are verified against vendor docs or source. The Tessl target additionally runs through `tessl tile lint` in CI on every push.
 
 ## Releasing
 
