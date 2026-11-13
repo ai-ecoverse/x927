@@ -1,3 +1,19 @@
+# [2.0.0](https://github.com/ai-ecoverse/x927/compare/v1.2.0...v2.0.0) (2026-11-13)
+
+
+* feat!: compile from an Agent Plugins plugin.json instead of PLUGIN.md ([b8823cb](https://github.com/ai-ecoverse/x927/commit/b8823cb29e8c82da86111952df61daa42801d146))
+
+
+### BREAKING CHANGES
+
+* PLUGIN.md is no longer read; the source is a root
+plugin.json with the Agent Plugins $schema (see "Migrating from 1.x" in the
+README). The Tessl target writes .tessl-plugin/plugin.json, not tile.json.
+Without declared targets only the Claude Code manifest is written. The
+GitHub Action input "input" is now "path".
+
+Signed-off-by: Lars Trieloff <lars@trieloff.net>
+
 # [1.2.0](https://github.com/ai-ecoverse/x927/compare/v1.1.0...v1.2.0) (2026-05-21)
 
 
