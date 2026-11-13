@@ -1,5 +1,5 @@
 name: x927 (AI Ecoverse)
-description: Compile one PLUGIN.md to plugin manifests for Claude Code, Cursor, Codex, and Tessl.
+description: Compile an Agent Plugins plugin.json into Claude Code, Tessl, Cursor and Codex manifests, and check that they are in sync.
 author: ai-ecoverse
 
 branding:
@@ -10,14 +10,17 @@ inputs:
   command:
     description: 'x927 subcommand: build | diff'
     default: build
-  input:
-    description: Path to the PLUGIN.md source.
-    default: PLUGIN.md
+  path:
+    description: The plugin's directory, or with all the repository's.
+    default: .
+  all:
+    description: Compile every plugin under path, and keep the marketplace catalogs in line.
+    default: 'false'
   target:
-    description: Comma-separated targets (claude,cursor,codex,tessl). Empty = all known targets.
+    description: Comma-separated targets (claude,tessl,cursor,codex). Empty = the targets each plugin declares.
     required: false
   version:
-    description: x927 version to run via npx (e.g. "0.1.0" or "latest").
+    description: x927 version to run via npx (e.g. "2.0.0" or "latest").
     default: latest
 
 runs:
@@ -29,12 +32,10 @@ runs:
         X927_TARGET: ${{ inputs.target }}
         X927_VERSION: ${{ inputs.version }}
         X927_COMMAND: ${{ inputs.command }}
-        X927_INPUT: ${{ inputs.input }}
+        X927_PATH: ${{ inputs.path }}
+        X927_ALL: ${{ inputs.all }}
       run: |
-        TARGET_FLAGS=""
-        if [ -n "$X927_TARGET" ]; then
-          for t in $(echo "$X927_TARGET" | tr ',' ' '); do
-            TARGET_FLAGS="$TARGET_FLAGS --target $t"
-          done
-        fi
-        npx -y "x927@$X927_VERSION" "$X927_COMMAND" "$X927_INPUT" $TARGET_FLAGS
+        ARGS=("$X927_COMMAND" "$X927_PATH")
+        if [ "$X927_ALL" = "true" ]; then ARGS+=(--all); fi
+        if [ -n "$X927_TARGET" ]; then ARGS+=(--target "$X927_TARGET"); fi
+        npx -y "x927@$X927_VERSION" "${ARGS[@]}"

@@ -1,52 +1,18 @@
-import fs from "node:fs";
-import path from "node:path";
-
-// Tessl expects `skills` as a record `{ <name>: { path: "skills/<dir>/SKILL.md" } }`,
-// not a string. If the user wrote `skills: "./skills/"`, scan that directory for
-// SKILL.md files and expand to the record form. Users can still override `skills`
-// explicitly under `## Tessl` if they want a different shape.
-function expandSkillsRecord(fields, { baseDir } = {}) {
-  if (typeof fields.skills !== "string" || !baseDir) return fields;
-
-  const skillsRel = fields.skills.replace(/^\.\//, "").replace(/\/$/, "");
-  const skillsAbs = path.resolve(baseDir, skillsRel);
-  if (!fs.existsSync(skillsAbs) || !fs.statSync(skillsAbs).isDirectory()) {
-    return fields;
-  }
-
-  const entries = {};
-  for (const dirent of fs.readdirSync(skillsAbs, { withFileTypes: true })) {
-    if (!dirent.isDirectory()) continue;
-    const skillMd = path.join(skillsAbs, dirent.name, "SKILL.md");
-    if (fs.existsSync(skillMd)) {
-      entries[dirent.name] = { path: `${skillsRel}/${dirent.name}/SKILL.md` };
-    }
-  }
-
-  return { ...fields, skills: entries };
-}
-
+// https://docs.tessl.io/reference/configuration (.tessl-plugin/plugin.json; tile.json is the legacy format)
+// Tessl names are workspace/plugin, so targets.tessl.name is required.
 export default {
   id: "tessl",
-  // Tessl uses `summary` where the rest use `description`.
-  rename: { description: "summary" },
-  allow: [
-    "name",
-    "summary",
-    "version",
-    "docs",
-    "describes",
-    "steering",
-    "skills",
-    "private",
-    "entrypoint",
-    "softDependencies",
-  ],
-  lists: ["softDependencies"],
-  transforms: [expandSkillsRecord],
-  output: {
-    path: "tile.json",
-    format: "json",
-    pretty: true,
+  label: "Tessl",
+  path: ".tessl-plugin/plugin.json",
+  portable: ["name", "version", "description", "author", "homepage", "repository", "license"],
+  mcp: true,
+  check(fields) {
+    if (typeof fields.name !== "string" || !/^[a-z0-9-]+\/[a-z0-9._-]+$/.test(fields.name)) {
+      return 'Tessl needs a workspace-qualified name: set targets.tessl.name to "<workspace>/<plugin>"';
+    }
+    if (typeof fields.repository === "string" && !/^https?:\/\//.test(fields.repository)) {
+      return 'Tessl accepts only an http(s) "repository" URL';
+    }
+    return null;
   },
 };

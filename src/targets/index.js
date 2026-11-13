@@ -1,6 +1,6 @@
 import claude from "./claude.js";
+import tessl from "./tessl.js";
 import cursor from "./cursor.js";
 import codex from "./codex.js";
-import tessl from "./tessl.js";
 
-export const TARGETS = { claude, cursor, codex, tessl };
+export const TARGETS = { claude, tessl, cursor, codex };

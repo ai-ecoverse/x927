@@ -1,29 +1,13 @@
+// https://code.claude.com/docs/en/plugins/manifest-reference
+// Claude Code does not read a root plugin.json, so it always needs this manifest.
 export default {
   id: "claude",
-  rename: {},
-  allow: [
-    "name",
-    "displayName",
-    "description",
-    "version",
-    "author",
-    "homepage",
-    "repository",
-    "license",
-    "keywords",
-    "skills",
-    "commands",
-    "agents",
-    "hooks",
-    "mcpServers",
-    "outputStyles",
-    "lspServers",
-  ],
-  lists: ["keywords"],
-  transforms: [],
-  output: {
-    path: ".claude-plugin/plugin.json",
-    format: "json",
-    pretty: true,
+  label: "Claude Code",
+  path: ".claude-plugin/plugin.json",
+  portable: ["name", "displayName", "version", "description", "author", "homepage", "repository", "license", "keywords"],
+  mcp: true,
+  check(fields) {
+    if (fields.author && !fields.author.name) return 'Claude Code requires "author.name" when "author" is set';
+    return null;
   },
 };
