@@ -1,0 +1,31 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "app-builder",
+  "version": "1.0.0",
+  "description": "Development, customization, testing, and deployment skills for Adobe App Builder projects.",
+  "author": {
+    "name": "Adobe"
+  },
+  "repository": "https://github.com/adobe/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "app-builder",
+    "adobe",
+    "development"
+  ],
+  "extensions": {
+    "io.github.ai-ecoverse.x927": {
+      "targets": {
+        "claude": {
+          "privacyPolicyUrl": "https://www.adobe.com/privacy.html"
+        },
+        "tessl": {
+          "name": "adobe/app-builder"
+        },
+        "cursor": {
+          "displayName": "Adobe App Builder"
+        }
+      }
+    }
+  }
+}

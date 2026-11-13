@@ -24,9 +24,11 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      - name: Install Tessl CLI (for tile-lint integration test)
+      - name: Install Tessl CLI (for the plugin lint test)
         uses: tesslio/setup-tessl@v2
+      - name: Install Claude Code CLI (for the plugin validate test)
+        run: npm install -g @anthropic-ai/claude-code
       - name: Run tests
         run: npm test
       - name: "Smoke: build the example"
-        run: node bin/x927.js build --dry-run examples/app-builder/PLUGIN.md
+        run: node bin/x927.js build --dry-run examples/app-builder

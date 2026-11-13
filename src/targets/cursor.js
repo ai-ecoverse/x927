@@ -1,29 +1,13 @@
+// https://cursor.com/docs/reference/plugins
+// Cursor loads a root plugin.json (skills and MCP servers only). This manifest is for
+// plugins that also ship Cursor components or listing fields such as logo.
 export default {
   id: "cursor",
-  rename: {},
-  allow: [
-    "name",
-    "displayName",
-    "description",
-    "version",
-    "author",
-    "homepage",
-    "repository",
-    "license",
-    "keywords",
-    "logo",
-    "rules",
-    "skills",
-    "agents",
-    "commands",
-    "hooks",
-    "mcpServers",
-  ],
-  lists: ["keywords"],
-  transforms: [],
-  output: {
-    path: ".cursor-plugin/plugin.json",
-    format: "json",
-    pretty: true,
+  label: "Cursor",
+  path: ".cursor-plugin/plugin.json",
+  portable: ["name", "version", "description", "author", "homepage", "repository", "license", "keywords"],
+  mcp: false,
+  check() {
+    return null;
   },
 };
